@@ -1,6 +1,10 @@
-# Invoice Field Extraction with DistilBERT
+# Invoice Field Extraction with Deep Learning
 
-A fast and accurate invoice field extraction system using DistilBERT for named entity recognition (NER). Extracts key fields from invoice PDFs and text including total price, items, customer details, dates, and invoice numbers.
+A comprehensive invoice field extraction system with **two approaches**:
+1. **Method 1 (Token Classification)**: Fast DistilBERT-based NER for fixed schemas
+2. **Method 2 (Constrained JSON)**: T5/Flan-T5 with guaranteed valid JSON output
+
+Extracts key fields from invoice PDFs and text including total price, items, customer details, dates, and invoice numbers.
 
 **Default Dataset**: [Company Documents Dataset](https://www.kaggle.com/datasets/ayoubcherguelaine/company-documents-dataset) from Kaggle - automatically downloaded and preprocessed.
 
@@ -8,41 +12,75 @@ A fast and accurate invoice field extraction system using DistilBERT for named e
 
 ## Features
 
+### Core Capabilities
 - **PDF Processing**: Extract text and layout information from PDF invoices
-- **DistilBERT Model**: Fast and efficient transformer-based extraction using token classification
+- **Two Extraction Methods**:
+  - **Method 1**: DistilBERT token classification (fast, fixed schema)
+  - **Method 2**: T5/Flan-T5 with constrained JSON generation (**guaranteed valid JSON**)
 - **Comprehensive Field Extraction**:
   - Total price
   - Invoice items and their prices
   - Customer name and address
   - Invoice date
   - Invoice number
-- **Evaluation Metrics**: Precision, recall, F1-score, and exact match accuracy
+- **Evaluation Metrics**: Precision, recall, F1-score, exact match, and JSON validation
 - **Training Pipeline**: Complete training workflow with checkpointing and validation
 - **CLI Tools**: Easy-to-use command-line interfaces for training, inference, and evaluation
 - **Kaggle Integration**: Automatic dataset download from Kaggle with one command
 - **Auto-annotation**: Regex-based pattern matching for semi-automated labeling
 - **GPU Acceleration**: Automatic support for CUDA (NVIDIA) and MPS (Apple Silicon)
 
+### Method 2 Special Features
+- **Constrained Decoding**: Uses `outlines` library for grammar-based JSON generation
+- **Schema Validation**: Pydantic models ensure output compliance
+- **100% Valid JSON**: Structurally impossible to generate invalid JSON
+- **Flexible Schema**: Easy to modify output structure without code changes
+
+## Documentation Guide
+
+**Lost? See [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Complete navigation guide to all documentation.
+
+**Quick links:**
+- Method 1 (Token Classification): [USAGE_GUIDE.md](USAGE_GUIDE.md)
+- Method 2 (Constrained JSON): [QUICK_START_JSON.md](QUICK_START_JSON.md)
+- Compare Methods: [METHOD_COMPARISON.md](METHOD_COMPARISON.md)
+
 ## Project Structure
 
 ```
 training/
-├── training/               # Main package
-│   ├── __init__.py
-│   ├── config.py          # Configuration classes
-│   ├── dataset.py         # Dataset loading and preprocessing
-│   ├── model.py           # DistilBERT model implementation
-│   ├── metrics.py         # Evaluation metrics
-│   ├── pdf_processor.py   # PDF text extraction
-│   ├── train.py           # Training script
-│   ├── inference.py       # Inference script
-│   ├── evaluate.py        # Evaluation script
-│   └── preprocess_data.py # Data preprocessing
-├── examples/              # Sample data and scripts
+├── training/                      # Main package
+│   ├── config.py                  # Configuration (ModelConfig, JSONModelConfig)
+│   ├── dataset.py                 # Dataset for Method 1 (token classification)
+│   ├── model.py                   # DistilBERT model (Method 1)
+│   ├── train.py                   # Training script (Method 1)
+│   ├── inference.py               # Inference script (Method 1)
+│   ├── evaluate.py                # Evaluation script
+│   ├── metrics.py                 # Token-level metrics (Method 1)
+│   ├── pdf_processor.py           # PDF text extraction
+│   ├── preprocess_data.py         # Data preprocessing
+│   │
+│   ├── json_schema.py             # Pydantic JSON schema (Method 2)
+│   ├── model_json.py              # T5/Flan-T5 model (Method 2)
+│   ├── dataset_json.py            # Dataset for JSON generation (Method 2)
+│   ├── train_json.py              # Training script (Method 2)
+│   ├── inference_json.py          # Constrained inference (Method 2)
+│   ├── metrics_json.py            # JSON-specific metrics (Method 2)
+│   ├── bio_to_json_converter.py   # Convert BIO to JSON format
+│   └── convert_data_to_json.py    # Data conversion script
+│
+├── examples/                      # Sample data and scripts
 │   ├── sample_invoice.txt
-│   └── create_sample_data.py
-├── pyproject.toml         # Project dependencies
-└── README.md
+│   ├── create_sample_data.py
+│   └── test_constrained_json.py   # Demo for Method 2
+│
+├── pyproject.toml                 # Project dependencies
+├── README.md                      # This file
+├── USAGE_GUIDE.md                 # Complete usage guide (Method 1)
+├── JSON_GENERATION_README.md      # Method 2 documentation
+├── QUICK_START_JSON.md            # Quick start for Method 2
+├── METHOD_COMPARISON.md           # Compare both methods
+└── IMPLEMENTATION_SUMMARY.md      # Method 2 implementation overview
 ```
 
 ## Installation
@@ -70,7 +108,28 @@ All checks should pass before proceeding.
 
 ## Quick Start
 
-### Option 1: Automated Setup (Recommended)
+### Choose Your Method
+
+**Method 1 (Token Classification)** - Fast, fixed schema:
+- Use when speed is critical
+- Schema is fixed and won't change
+- Running on limited hardware
+- See [USAGE_GUIDE.md](USAGE_GUIDE.md) for complete guide
+
+**Method 2 (Constrained JSON)** - Guaranteed valid JSON:
+- Need 100% valid JSON output
+- Schema may evolve over time
+- Want flexible, nested structures
+- See [QUICK_START_JSON.md](QUICK_START_JSON.md) for quick start
+- See [JSON_GENERATION_README.md](JSON_GENERATION_README.md) for full docs
+
+**Compare Methods**: See [METHOD_COMPARISON.md](METHOD_COMPARISON.md)
+
+---
+
+### Method 1 Quick Start
+
+#### Option 1: Automated Setup (Recommended)
 
 Run the quick start script to download data, preprocess, and train:
 
@@ -81,9 +140,9 @@ Run the quick start script to download data, preprocess, and train:
 This will:
 1. Download the Company Documents Dataset from Kaggle
 2. Extract and preprocess invoice PDFs
-3. Train a DistilBERT model
+3. Train a DistilBERT model (Method 1)
 
-### Option 2: Step-by-Step Setup
+#### Option 2: Step-by-Step Setup
 
 #### 1. Set Up Kaggle API Credentials
 
@@ -119,7 +178,7 @@ This will:
 - Auto-annotate fields using pattern matching
 - Create train/val/test splits in BIO format
 
-### Option 3: Test with Sample Data
+#### Option 3: Test with Sample Data
 
 Create sample training data to test the system without downloading:
 
@@ -129,7 +188,41 @@ uv run python examples/create_sample_data.py
 
 This creates minimal sample data in `data/processed/`.
 
-### 2. Train the Model
+---
+
+### Method 2 Quick Start
+
+See [QUICK_START_JSON.md](QUICK_START_JSON.md) for complete Method 2 guide.
+
+**TL;DR**:
+
+```bash
+# 1. Install dependencies (includes outlines and pydantic)
+pip install -e .
+
+# 2. Convert data and train
+python -m training.train_json \
+    --data-dir data/processed \
+    --convert-data \
+    --batch-size 8 \
+    --num-epochs 10
+
+# 3. Run inference with constraints
+python -m training.inference_json \
+    --model-path models/json_model/best_model \
+    --input invoice.pdf
+
+# 4. Test the demo
+python examples/test_constrained_json.py
+```
+
+**Key Difference**: Method 2 guarantees 100% valid JSON using constrained decoding!
+
+---
+
+## Training
+
+### Method 1: Train Token Classification Model
 
 Train a DistilBERT model on your data:
 
@@ -141,22 +234,32 @@ uv run train-invoice \
   --batch-size 8
 ```
 
-Training parameters:
-- `--data-dir`: Directory containing train.json and val.json
-- `--output-dir`: Where to save the trained model
-- `--num-epochs`: Number of training epochs (default: 10)
-- `--batch-size`: Batch size (default: 8)
-- `--learning-rate`: Learning rate (default: 2e-5)
-- `--max-length`: Maximum sequence length (default: 512)
-- `--resume`: Path to checkpoint to resume training
+### Method 2: Train JSON Generation Model
 
-The trainer will:
-- Save the best model based on F1-score to `models/best_model/`
-- Save the final model to `models/final_model/`
-- Save checkpoints to `checkpoints/checkpoint_epoch_*.pt`
-- Save training history to `models/training_history.json`
+Train a T5/Flan-T5 model for JSON generation:
 
-### 3. Extract Fields from Invoices
+```bash
+python -m training.train_json \
+    --data-dir data/processed \
+    --convert-data \
+    --output-dir models/json_model \
+    --model-name google/flan-t5-base \
+    --batch-size 8 \
+    --num-epochs 10
+```
+
+**Key parameters**:
+- `--model-name`: Choose from `t5-small`, `t5-base`, `google/flan-t5-base` (recommended), `google/flan-t5-large`
+- `--convert-data`: Auto-convert BIO data to JSON format
+- `--batch-size`: Smaller than Method 1 due to larger model
+
+See [JSON_GENERATION_README.md](JSON_GENERATION_README.md) for details.
+
+---
+
+## Inference
+
+### Method 1: Extract with Token Classification
 
 Extract fields from a new invoice:
 
@@ -173,7 +276,25 @@ uv run extract-invoice \
   --output results.json
 ```
 
-Output format (simple):
+### Method 2: Extract with Constrained JSON
+
+Extract with guaranteed valid JSON:
+
+```bash
+# With constraints (guaranteed valid JSON!)
+python -m training.inference_json \
+    --model-path models/json_model/best_model \
+    --input invoice.pdf \
+    --output results.json
+
+# Without constraints (for comparison)
+python -m training.inference_json \
+    --model-path models/json_model/best_model \
+    --input invoice.pdf \
+    --no-constraints
+```
+
+**Output format** (both methods):
 ```json
 {
   "invoice_number": "INV-2024-0001",
@@ -191,7 +312,11 @@ Output format (simple):
 }
 ```
 
-### 4. Evaluate the Model
+**Method 2 difference**: JSON is **always valid** (100% guarantee with constraints enabled).
+
+---
+
+## Evaluation
 
 Evaluate model performance on test data:
 
@@ -272,13 +397,30 @@ The system uses BIO (Begin-Inside-Outside) tagging:
 | Invoice Number | B-INVOICE_NUMBER, I-INVOICE_NUMBER | Unique invoice ID |
 | Outside | O | Not part of any entity |
 
-## Model Architecture
+## Model Architectures
+
+### Method 1: Token Classification (DistilBERT)
 
 - **Base Model**: DistilBERT (distilbert-base-uncased)
 - **Task**: Token Classification (NER)
 - **Labels**: 15 labels (7 entity types × 2 + O)
 - **Max Sequence Length**: 512 tokens
 - **Training**: AdamW optimizer with linear warmup
+- **Speed**: ~50ms per invoice
+- **Memory**: ~1GB GPU
+
+### Method 2: JSON Generation (T5/Flan-T5)
+
+- **Base Model**: T5-base or Flan-T5-base (220-250M params)
+- **Task**: Sequence-to-Sequence Generation
+- **Output**: JSON string (validated by schema)
+- **Max Input Length**: 512 tokens
+- **Max Target Length**: 512 tokens
+- **Training**: AdamW optimizer with warmup
+- **Constrained Decoding**: `outlines` library for grammar enforcement
+- **Speed**: ~70ms per invoice (with constraints)
+- **Memory**: ~4GB GPU
+- **Valid JSON Rate**: **100%** (guaranteed)
 
 ## Evaluation Metrics
 

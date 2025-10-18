@@ -12,6 +12,7 @@ wheels/
 # Data and models
 data/
 models/
+model/
 checkpoints/
 *.pth
 *.pt

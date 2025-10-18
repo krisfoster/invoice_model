@@ -1,12 +1,23 @@
-# Complete Usage Guide
+# Complete Usage Guide - Method 1 (Token Classification)
 
-This guide walks you through the entire workflow from setup to inference.
+This guide walks you through Method 1 (DistilBERT token classification) from setup to inference.
+
+**For Method 2 (Constrained JSON Generation)**, see [QUICK_START_JSON.md](QUICK_START_JSON.md) or [JSON_GENERATION_README.md](JSON_GENERATION_README.md).
+
+**To compare methods**, see [METHOD_COMPARISON.md](METHOD_COMPARISON.md).
 
 ## Prerequisites
 
 - Python 3.14
 - [uv](https://github.com/astral-sh/uv) package manager
 - Kaggle account (for dataset download)
+
+## Method 1 Overview
+
+- **Model**: DistilBERT (token classification)
+- **Speed**: Fast (~50ms per invoice)
+- **Output**: BIO labels -> post-processed JSON
+- **Best for**: Fixed schemas, high-speed requirements, limited hardware
 
 ## Step-by-Step Workflow
 

@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 
 @dataclass
@@ -106,3 +106,32 @@ class TrainingConfig:
         self.output_dir = Path(self.output_dir)
         self.checkpoint_dir = Path(self.checkpoint_dir)
         self.log_dir = Path(self.log_dir)
+
+
+@dataclass
+class JSONModelConfig:
+    """Configuration for JSON generation model (Method 2: Constrained Decoding)."""
+
+    # Model settings
+    model_name: str = "google/flan-t5-base"  # Can use: t5-small, t5-base, flan-t5-base, flan-t5-large
+    max_input_length: int = 512
+    max_target_length: int = 512
+
+    # Training settings
+    learning_rate: float = 5e-5
+    batch_size: int = 8  # T5 models require more memory than DistilBERT
+    num_epochs: int = 10
+    warmup_steps: int = 500
+    weight_decay: float = 0.01
+
+    # Generation settings
+    num_beams: int = 4
+    early_stopping: bool = True
+    use_constrained_generation: bool = True  # Enable constrained JSON generation
+
+    # Data paths
+    json_data_dir: Path = Path("data/json")
+
+    def __post_init__(self):
+        """Ensure paths are Path objects."""
+        self.json_data_dir = Path(self.json_data_dir)
