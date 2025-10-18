@@ -31,3 +31,7 @@ outputs/
 
 # OS
 .DS_Store
+evaluation_results_final.json
+evaluation_results.json
+results_10260.json
+results.json
