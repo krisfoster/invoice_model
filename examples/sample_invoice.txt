@@ -1,0 +1,18 @@
+INVOICE
+
+Invoice Number: INV-2024-0001
+Date: January 15, 2024
+
+Bill To:
+John Smith
+123 Main Street
+Springfield, IL 62701
+
+Items:
+1. Laptop Computer - $1,299.99
+2. Wireless Mouse - $29.99
+3. USB-C Cable - $15.99
+
+TOTAL: $1,345.97
+
+Thank you for your business!

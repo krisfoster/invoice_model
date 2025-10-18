@@ -1,0 +1,38 @@
+[project]
+name = "training"
+version = "0.1.0"
+description = "Invoice field extraction using DistilBERT"
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "pymupdf>=1.24.0",
+    "scikit-learn>=1.3.0",
+    "numpy>=1.24.0,<2.0.0",
+    "pandas>=2.0.0",
+    "pillow>=10.0.0",
+    "tqdm>=4.65.0",
+    "seqeval>=1.2.2",
+    "kaggle>=1.6.0",
+    "openpyxl>=3.1.0",
+]
+
+[project.scripts]
+train-invoice = "training.train:main"
+extract-invoice = "training.inference:main"
+evaluate-invoice = "training.evaluate:main"
+download-dataset = "training.download_dataset:main"
+preprocess-dataset = "training.preprocess_data:main"
+
+[tool.uv]
+package = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["training*"]
+exclude = ["configs*", "data*", "models*", "checkpoints*", "examples*"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
