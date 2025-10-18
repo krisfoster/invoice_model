@@ -68,21 +68,21 @@ uv run extract-invoice --model-path models/best_model --input invoice.pdf
 
 ```bash
 # Install dependencies
-pip install -e .
+uv sync
 
 # Convert data and train
-python -m training.train_json \
+uv run python -m training.train_json \
     --data-dir data/processed \
     --convert-data \
     --batch-size 8
 
 # Infer with constraints
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input invoice.pdf
 
 # Test demo
-python examples/test_constrained_json.py
+uv run python examples/test_constrained_json.py
 ```
 
 ---

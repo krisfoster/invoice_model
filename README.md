@@ -94,7 +94,7 @@ uv sync
 
 2. Verify installation:
 ```bash
-python verify_setup.py
+uv run python verify_setup.py
 ```
 
 This checks:
@@ -198,22 +198,22 @@ See [QUICK_START_JSON.md](QUICK_START_JSON.md) for complete Method 2 guide.
 
 ```bash
 # 1. Install dependencies (includes outlines and pydantic)
-pip install -e .
+uv sync
 
 # 2. Convert data and train
-python -m training.train_json \
+uv run python -m training.train_json \
     --data-dir data/processed \
     --convert-data \
     --batch-size 8 \
     --num-epochs 10
 
 # 3. Run inference with constraints
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input invoice.pdf
 
 # 4. Test the demo
-python examples/test_constrained_json.py
+uv run python examples/test_constrained_json.py
 ```
 
 **Key Difference**: Method 2 guarantees 100% valid JSON using constrained decoding!
@@ -239,7 +239,7 @@ uv run train-invoice \
 Train a T5/Flan-T5 model for JSON generation:
 
 ```bash
-python -m training.train_json \
+uv run python -m training.train_json \
     --data-dir data/processed \
     --convert-data \
     --output-dir models/json_model \
@@ -282,13 +282,13 @@ Extract with guaranteed valid JSON:
 
 ```bash
 # With constraints (guaranteed valid JSON!)
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input invoice.pdf \
     --output results.json
 
 # Without constraints (for comparison)
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input invoice.pdf \
     --no-constraints
@@ -481,10 +481,10 @@ The system automatically detects and uses the best available hardware accelerati
 
 ```bash
 # Run verification script
-python verify_setup.py
+uv run python verify_setup.py
 
 # Or check manually
-python -c "import torch; print(f'CUDA: {torch.cuda.is_available()}'); print(f'MPS: {torch.backends.mps.is_available()}')"
+uv run python -c "import torch; print(f'CUDA: {torch.cuda.is_available()}'); print(f'MPS: {torch.backends.mps.is_available()}')"
 ```
 
 #### Performance by Device

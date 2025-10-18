@@ -58,7 +58,7 @@ uv run evaluate-invoice --model-path models/best_model --test-data data/processe
 
 ```bash
 # Check setup
-python verify_setup.py
+uv run python verify_setup.py
 
 # Monitor GPU
 sudo powermetrics --samplers gpu_power -i 1000
@@ -94,7 +94,7 @@ uv run preprocess-dataset --input-dir data/raw/invoices --max-files 20
 
 ```bash
 # MPS not detected?
-python -c "import torch; print(f'MPS: {torch.backends.mps.is_available()}')"
+uv run python -c "import torch; print(f'MPS: {torch.backends.mps.is_available()}')"
 
 # Out of memory?
 uv run train-invoice --batch-size 24  # Reduce from 32
@@ -125,7 +125,7 @@ sysctl -n machdep.cpu.brand_string
 sysctl hw.memsize | awk '{print $2/1073741824 " GB"}'
 
 # Check MPS
-python -c "import torch; print(f'MPS: {torch.backends.mps.is_available()}')"
+uv run python -c "import torch; print(f'MPS: {torch.backends.mps.is_available()}')"
 ```
 
 ## Workflow

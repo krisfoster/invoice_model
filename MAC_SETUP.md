@@ -43,7 +43,7 @@ Using device: mps (Apple Metal Performance Shaders)
 Run the verification script:
 
 ```bash
-python verify_setup.py
+uv run python verify_setup.py
 ```
 
 Look for this section:
@@ -107,7 +107,7 @@ This installs PyTorch with MPS support automatically.
 
 4. **Verify setup**:
 ```bash
-python verify_setup.py
+uv run python verify_setup.py
 ```
 
 Should show MPS available ✓
@@ -369,7 +369,7 @@ Expected times for one epoch (20 invoices):
 If you encounter issues with MPS:
 
 1. Check PyTorch MPS documentation: https://pytorch.org/docs/stable/notes/mps.html
-2. Verify your setup: `python verify_setup.py`
+2. Verify your setup: `uv run python verify_setup.py`
 3. Check system requirements above
 4. Try reducing batch size
 5. Update macOS and PyTorch

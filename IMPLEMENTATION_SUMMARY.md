@@ -126,7 +126,7 @@ Valid JSON Output (GUARANTEED ✅)
 ### 1. Install Dependencies
 
 ```bash
-pip install -e .
+uv sync
 ```
 
 New dependencies installed:
@@ -136,7 +136,7 @@ New dependencies installed:
 ### 2. Train Model
 
 ```bash
-python -m training.train_json \
+uv run python -m training.train_json \
     --data-dir data/processed \
     --convert-data \
     --batch-size 8 \
@@ -146,7 +146,7 @@ python -m training.train_json \
 ### 3. Run Inference
 
 ```bash
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input invoice.pdf
 ```
@@ -154,7 +154,7 @@ python -m training.inference_json \
 ### 4. Test Demo
 
 ```bash
-python examples/test_constrained_json.py
+uv run python examples/test_constrained_json.py
 ```
 
 ## The Magic: How Constrained Decoding Works
@@ -407,17 +407,17 @@ Total: $4,500.00
 
 1. **Test the implementation**
    ```bash
-   python examples/test_constrained_json.py
+   uv run python examples/test_constrained_json.py
    ```
 
 2. **Train on your data**
    ```bash
-   python -m training.train_json --data-dir data/processed --convert-data
+   uv run python -m training.train_json --data-dir data/processed --convert-data
    ```
 
 3. **Run inference**
    ```bash
-   python -m training.inference_json --model-path models/json_model/best_model --input invoice.pdf
+   uv run python -m training.inference_json --model-path models/json_model/best_model --input invoice.pdf
    ```
 
 4. **Customize the schema**

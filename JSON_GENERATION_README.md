@@ -52,9 +52,7 @@ dependencies = [
 Install all dependencies:
 
 ```bash
-pip install -e .
-# or with uv:
-uv pip install -e .
+uv sync
 ```
 
 ## Quick Start
@@ -64,7 +62,7 @@ uv pip install -e .
 If you have BIO-labeled data, convert it to JSON format:
 
 ```bash
-python -m training.convert_data_to_json \
+uv run python -m training.convert_data_to_json \
     --input data/processed \
     --output data/json \
     --splits train val test
@@ -78,7 +76,7 @@ This creates:
 ### 2. Train the Model
 
 ```bash
-python -m training.train_json \
+uv run python -m training.train_json \
     --data-dir data/processed \
     --json-data-dir data/json \
     --output-dir models/json_model \
@@ -99,7 +97,7 @@ python -m training.train_json \
 #### With Constraints (Guaranteed Valid JSON)
 
 ```bash
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input path/to/invoice.pdf \
     --output results.json
@@ -108,7 +106,7 @@ python -m training.inference_json \
 #### Without Constraints (For Comparison)
 
 ```bash
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input path/to/invoice.pdf \
     --output results.json \
@@ -118,7 +116,7 @@ python -m training.inference_json \
 ### 4. Test with Demo Script
 
 ```bash
-python examples/test_constrained_json.py
+uv run python examples/test_constrained_json.py
 ```
 
 This runs three tests:
@@ -316,9 +314,7 @@ Constrained generation adds 10-30% overhead but **guarantees valid JSON**.
 ### "outlines not installed"
 
 ```bash
-pip install outlines
-# or
-uv pip install outlines
+uv sync
 ```
 
 ### "Model generates invalid JSON" (with constraints disabled)
@@ -395,7 +391,7 @@ results = extractor.extract_batch(texts, batch_size=8)
 ## Next Steps
 
 1. **Train your model**: Follow Quick Start above
-2. **Run demo**: `python examples/test_constrained_json.py`
+2. **Run demo**: `uv run python examples/test_constrained_json.py`
 3. **Evaluate**: Compare with/without constraints
 4. **Deploy**: Use in production with guaranteed valid JSON
 

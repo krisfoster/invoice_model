@@ -219,11 +219,11 @@ If you're currently using Method 1 and want to switch:
 1. **Keep Method 1 running** (don't break production)
 2. **Convert training data** to JSON format
    ```bash
-   python -m training.convert_data_to_json --input data/processed --output data/json
+   uv run python -m training.convert_data_to_json --input data/processed --output data/json
    ```
 3. **Train Method 2 model** in parallel
    ```bash
-   python -m training.train_json --json-data-dir data/json
+   uv run python -m training.train_json --json-data-dir data/json
    ```
 4. **A/B test** both methods
 5. **Gradually migrate** traffic to Method 2

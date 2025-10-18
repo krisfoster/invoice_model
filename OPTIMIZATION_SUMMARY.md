@@ -131,7 +131,7 @@ uv run train-invoice --batch-size 4
 Check your system is using optimized settings:
 
 ```bash
-python verify_setup.py
+uv run uv run python verify_setup.py
 ```
 
 Should show:
@@ -162,7 +162,7 @@ Compare to CPU: **~2.5 hours** (6x slower!)
 uv sync
 
 # 2. Verify (check MPS is available)
-python verify_setup.py
+uv run python verify_setup.py
 
 # 3. Setup Kaggle credentials
 mkdir -p ~/.kaggle
@@ -243,7 +243,7 @@ New documentation:
 
 ## Next Steps
 
-1. **Run verification**: `python verify_setup.py`
+1. **Run verification**: `uv run python verify_setup.py`
 2. **Start training**: `uv run train-invoice --data-dir data/processed`
 3. **Enjoy fast training**: Watch it complete in ~20 minutes! ⚡
 4. **Experiment**: Try `--batch-size 48` for even faster results

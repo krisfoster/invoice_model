@@ -18,9 +18,6 @@ Before starting, ensure you have:
 
 ```bash
 # Install the updated dependencies (includes outlines and pydantic)
-pip install -e .
-
-# Or with uv:
 uv sync
 ```
 
@@ -32,18 +29,18 @@ This installs new dependencies:
 
 ```bash
 # Option A: Convert data first, then train
-python -m training.convert_data_to_json \
+uv run python -m training.convert_data_to_json \
     --input data/processed \
     --output data/json
 
-python -m training.train_json \
+uv run python -m training.train_json \
     --json-data-dir data/json \
     --output-dir models/json_model \
     --batch-size 8 \
     --num-epochs 10
 
 # Option B: Convert and train in one command (RECOMMENDED)
-python -m training.train_json \
+uv run python -m training.train_json \
     --data-dir data/processed \
     --json-data-dir data/json \
     --output-dir models/json_model \
@@ -58,13 +55,13 @@ python -m training.train_json \
 
 ```bash
 # Extract from invoice with guaranteed valid JSON
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input path/to/invoice.pdf \
     --output results.json
 
 # Or test with the demo
-python examples/test_constrained_json.py
+uv run python examples/test_constrained_json.py
 ```
 
 ## What You Just Built
@@ -158,7 +155,7 @@ malformed = "Some random text with numbers 12345 and date 2024-01-15"
 ### Run All Tests
 
 ```bash
-python examples/test_constrained_json.py
+uv run python examples/test_constrained_json.py
 ```
 
 Expected output:
@@ -190,13 +187,13 @@ Use a different T5 variant:
 
 ```bash
 # Smaller (faster, less accurate)
-python -m training.train_json --model-name t5-small ...
+uv run python -m training.train_json --model-name t5-small ...
 
 # Standard (recommended)
-python -m training.train_json --model-name google/flan-t5-base ...
+uv run python -m training.train_json --model-name google/flan-t5-base ...
 
 # Larger (slower, more accurate)
-python -m training.train_json --model-name google/flan-t5-large ...
+uv run python -m training.train_json --model-name google/flan-t5-large ...
 ```
 
 ### Adjust Constraints
@@ -211,7 +208,7 @@ extractor = ConstrainedJSONExtractor(
 )
 
 # In CLI:
-python -m training.inference_json \
+uv run python -m training.inference_json \
     --model-path models/json_model/best_model \
     --input invoice.pdf \
     --no-constraints  # Disable constraints
@@ -261,7 +258,7 @@ Cons: Slightly slower, more memory
 ## Next Steps
 
 1. **Train the model** (see commands above)
-2. **Run the demo** (`python examples/test_constrained_json.py`)
+2. **Run the demo** (`uv run python examples/test_constrained_json.py`)
 3. **Test on your data** (PDF or text files)
 4. **Evaluate performance** (compare with/without constraints)
 5. **Deploy** (use in production with guaranteed valid JSON)
@@ -270,24 +267,24 @@ Cons: Slightly slower, more memory
 
 ### "outlines not installed"
 ```bash
-pip install outlines
+uv sync
 ```
 
 ### "Model not found"
 Train the model first:
 ```bash
-python -m training.train_json --data-dir data/processed --convert-data
+uv run python -m training.train_json --data-dir data/processed --convert-data
 ```
 
 ### Out of memory
 Reduce batch size:
 ```bash
-python -m training.train_json --batch-size 2 ...
+uv run python -m training.train_json --batch-size 2 ...
 ```
 
 Or use smaller model:
 ```bash
-python -m training.train_json --model-name t5-small ...
+uv run python -m training.train_json --model-name t5-small ...
 ```
 
 ## Questions?

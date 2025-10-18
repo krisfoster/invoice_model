@@ -320,7 +320,7 @@ Watch the "Memory Pressure" graph:
 
 1. **Check GPU is being used**:
 ```bash
-python -c "import torch; print(f'MPS available: {torch.backends.mps.is_available()}')"
+uv run python -c "import torch; print(f'MPS available: {torch.backends.mps.is_available()}')"
 ```
 
 2. **Monitor GPU usage**:

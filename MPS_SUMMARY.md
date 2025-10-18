@@ -107,7 +107,7 @@ if torch.backends.mps.is_available():
 Or use the verification script:
 
 ```bash
-python verify_setup.py
+uv run python verify_setup.py
 ```
 
 Look for:
@@ -187,7 +187,7 @@ This confirms MPS is actively being used.
 
 ## Next Steps
 
-1. **Verify MPS works**: `python verify_setup.py`
+1. **Verify MPS works**: `uv run python verify_setup.py`
 2. **Run training**: `uv run train-invoice --data-dir data/processed`
 3. **Enjoy fast training**: Watch it use MPS automatically! ⚡
 
